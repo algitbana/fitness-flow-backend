@@ -57,7 +57,7 @@ app.post('/api/auth/login', async (req, res) => {
   if (!user) return res.status(401).json({ message: 'Invalid credentials' });
   const token = jwt.sign({ id: user._id, role: user.role }, 'secret', { expiresIn: '1h' });
   res.json({ user: { id: user._id, email: user.email, role: user.role, name: user.name }, token });
-});
+});  
 
 // Client Routes
 app.get('/api/clients', verifyToken, async (req, res) => {
