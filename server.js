@@ -50,7 +50,7 @@ const verifyToken = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) return res.status(401).json({ message: 'No token provided' });
   try {
-    const decoded = jwt.verify(token, 'secret');
+    const decoded = jwt.verify(token, jwtSecret);  // Use jwtSecret instead of 'secret'
     req.user = decoded;
     next();
   } catch (error) {
@@ -63,7 +63,8 @@ app.post('/api/auth/login', async (req, res) => {
   const { email, password, role } = req.body;
   const user = await User.findOne({ email, password, role });
   if (!user) return res.status(401).json({ message: 'Invalid credentials' });
-  const token = jwt.sign({ id: user._id, role: user.role }, 'secret', { expiresIn: '1h' });
+  const token = jwt.sign({ id: user._id, role: user.role }, jwtSecret, { expiresIn: '1h' });
+
   res.json({ user: { id: user._id, email: user.email, role: user.role, name: user.name }, token });
 });  
 
