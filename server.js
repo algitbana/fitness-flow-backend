@@ -76,11 +76,12 @@ app.get('/api/clients', verifyToken, async (req, res) => {
 });
 
 // Workout Routes
-app.post('/api/workouts', verifyToken, async (req, res) => {
-  if (req.user.role !== 'trainer') return res.status(403).json({ message: 'Access denied' });
-  const workout = new Workout({ ...req.body, trainerId: req.user.id });
-  await workout.save();
-  res.json(workout);
+app.post('/api/auth/login', async (req, res) => {
+  const { email, password, role } = req.body;
+  const user = await User.findOne({ email, password, role });
+  if (!user) return res.status(401).json({ message: 'Invalid credentials' });
+  const token = jwt.sign({ id: user._id, role: user.role }, jwtSecret, { expiresIn: '1h' });
+  res.json({ user: { id: user._id, email: user.email, role: user.role, name: user.name }, token });
 });
 
 app.get('/api/workouts', verifyToken, async (req, res) => {
@@ -109,4 +110,4 @@ app.get('/api/messages/client', verifyToken, async (req, res) => {
   res.json(messages);
 });
 
-app.listen(3000, () => console.log('Server running on port 3000'));
+app.listen(process.env.PORT || 3000, () => console.log('Server running on port ' + (process.env.PORT || 3000))); 
