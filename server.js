@@ -1,7 +1,7 @@
 require('dotenv').config(); // Load environment variables from .env file 
 const express = require('express');
 const mongoose = require('mongoose');mongoose.set('strictQuery', true); 
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken'); 
 const cors = require('cors');
 const app = express();
 
