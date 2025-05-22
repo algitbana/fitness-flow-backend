@@ -1,3 +1,4 @@
+// Added a comment to force re-deploy
 require('dotenv').config(); // Load environment variables from .env file 
 const express = require('express');
 const mongoose = require('mongoose');mongoose.set('strictQuery', true); 
