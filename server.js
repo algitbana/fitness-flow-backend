@@ -7,7 +7,10 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-
+app.use((req, res, next) => {
+  console.log(`Received ${req.method} request to ${req.url}`);
+  next();
+});
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -58,7 +61,15 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-// Auth Routes
+// Auth Routes 
+app.post('/api/auth/login', async (req, res) => {
+  console.log('Login route hit with body:', req.body);
+  const { email, password, role } = req.body;
+  const user = await User.findOne({ email, password, role });
+  if (!user) return res.status(401).json({ message: 'Invalid credentials' });
+  const token = jwt.sign({ id: user._id, role: user.role }, jwtSecret, { expiresIn: '1h' });
+  res.json({ user: { id: user._id, email: user.email, role: user.role, name: user.name }, token });
+});
 
 // Client Routes
 app.get('/api/clients', verifyToken, async (req, res) => {
@@ -68,13 +79,7 @@ app.get('/api/clients', verifyToken, async (req, res) => {
 });
 
 // Workout Routes
-app.post('/api/auth/login', async (req, res) => {
-  const { email, password, role } = req.body;
-  const user = await User.findOne({ email, password, role });
-  if (!user) return res.status(401).json({ message: 'Invalid credentials' });
-  const token = jwt.sign({ id: user._id, role: user.role }, jwtSecret, { expiresIn: '1h' });
-  res.json({ user: { id: user._id, email: user.email, role: user.role, name: user.name }, token }); 
-});
+
 
 app.get('/api/workouts', verifyToken, async (req, res) => {
   if (req.user.role !== 'trainer') return res.status(403).json({ message: 'Access denied' });
