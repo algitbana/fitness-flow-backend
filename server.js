@@ -59,14 +59,6 @@ const verifyToken = (req, res, next) => {
 };
 
 // Auth Routes
-app.post('/api/auth/login', async (req, res) => {
-  const { email, password, role } = req.body;
-  const user = await User.findOne({ email, password, role });
-  if (!user) return res.status(401).json({ message: 'Invalid credentials' });
-  const token = jwt.sign({ id: user._id, role: user.role }, jwtSecret, { expiresIn: '1h' });
-
-  res.json({ user: { id: user._id, email: user.email, role: user.role, name: user.name }, token });
-});  
 
 // Client Routes
 app.get('/api/clients', verifyToken, async (req, res) => {
@@ -81,7 +73,7 @@ app.post('/api/auth/login', async (req, res) => {
   const user = await User.findOne({ email, password, role });
   if (!user) return res.status(401).json({ message: 'Invalid credentials' });
   const token = jwt.sign({ id: user._id, role: user.role }, jwtSecret, { expiresIn: '1h' });
-  res.json({ user: { id: user._id, email: user.email, role: user.role, name: user.name }, token });
+  res.json({ user: { id: user._id, email: user.email, role: user.role, name: user.name }, token }); 
 });
 
 app.get('/api/workouts', verifyToken, async (req, res) => {
