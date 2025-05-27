@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/fitness-flow-backend/static/css/main.da3b2e52.css",
+    "main.js": "/fitness-flow-backend/static/js/main.508a22c0.js",
+    "static/js/584.c40729b9.chunk.js": "/fitness-flow-backend/static/js/584.c40729b9.chunk.js",
+    "static/media/powermode-logo.png": "/fitness-flow-backend/static/media/powermode-logo.650a745590ea897f7772.png",
+    "index.html": "/fitness-flow-backend/index.html",
+    "main.da3b2e52.css.map": "/fitness-flow-backend/static/css/main.da3b2e52.css.map",
+    "main.508a22c0.js.map": "/fitness-flow-backend/static/js/main.508a22c0.js.map",
+    "584.c40729b9.chunk.js.map": "/fitness-flow-backend/static/js/584.c40729b9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.da3b2e52.css",
+    "static/js/main.508a22c0.js"
+  ]
+}
